@@ -1,36 +1,82 @@
 <!DOCTYPE html>
-<!-- Aksesibilitas: Deklarasi bahasa dokumen untuk pembaca layar (screen reader) -->
+<!-- Aksesibilitas: Bahasa dokumen terdefinisi -->
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Aksesibilitas: Viewport responsif untuk perangkat mobile -->
+    <!-- Aksesibilitas: Viewport responsif -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kost Ibu Rina</title>
 </head>
 <body>
 
-    <!-- Header & Navigasi Landmark Semantik -->
+    <!-- Navigasi -->
     <header>
-        <!-- Aksesibilitas: aria-label memperjelas konteks navigasi utama -->
         <nav aria-label="Navigasi Utama">
             <h2>Kost Ibu Rina</h2>
             <ul>
                 <li><a href="#tentang">Tentang</a></li>
-                <li><a href="#kamar">Daftar Kamar</a></li>
-                <li><a href="#tur">Tur Fasilitas</a></li>
-                <li><a href="#kontak">Kontak</a></li>
+                <li><a href="#kamar">Kamar</a></li>
+                <li><a href="#tur">Tur</a></li>
+                <li><a href="#pesan">Pesan</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Konten Utama Halaman (Landmark: main) -->
+    <!-- Konten Utama -->
     <main>
-        <!-- Section 1: Profil / Tentang (Hierarki heading utama h1) -->
-        <section id="tentang" aria-labelledby="heading-tentang">
-            <h1 id="heading-tentang">Kost Ibu Rina</h1>
-            <p>Hunian sewa mandiri 3 kamar yang nyaman, bersih, dan strategis.</p>
+        <!-- Section 1: Profil (Heading h1) -->
+        <section id="tentang">
+            <h1>Selamat Datang di Kost Ibu Rina</h1>
+            <p>Hunian sewa nyaman dan strategis dengan tiga unit kamar.</p>
+        </section>
+
+        <!-- Section 2: Informasi Kamar (Heading h2 & 1 Article) -->
+        <section id="kamar">
+            <h2>Daftar Kamar</h2>
+            <article>
+                <!-- Heading h3 berurutan logis di bawah h2 -->
+                <h3>Kamar 01</h3>
+                <p>Harga: Rp850.000 / bulan</p>
+                <p>Status: Tersedia</p>
+            </article>
+        </section>
+
+        <!-- Section 3: Tur Fasilitas -->
+        <section id="tur">
+            <h2>Tur Fasilitas Kost</h2>
+            <!-- Aksesibilitas: alt mendeskripsikan isi gambar denah -->
+            <img src="denah-kost.jpg" alt="Denah tata letak alur pintu masuk menuju kamar, dapur, dan toilet">
+        </section>
+
+        <!-- Form Pemesanan -->
+        <section id="pesan">
+            <h2>Form Pengajuan Sewa</h2>
+            <form action="#" method="post">
+                <!-- Aksesibilitas: label eksplisit berpasangan dengan id -->
+                <p>
+                    <label for="nama">Nama Lengkap:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </p>
+                <p>
+                    <label for="kontak">Nomor HP / WhatsApp:</label>
+                    <input type="tel" id="kontak" name="kontak" required>
+                </p>
+                <p>
+                    <label for="kamar-pilihan">Pilih Kamar:</label>
+                    <select id="kamar-pilihan" name="kamar_pilihan" required>
+                        <option value="">-- Pilih salah satu --</option>
+                        <option value="kamar-1">Kamar 01</option>
+                    </select>
+                </p>
+                <button type="submit">Kirim Pengajuan</button>
+            </form>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Kost Ibu Rina. Semua Hak Dilindungi.</p>
+    </footer>
 
 </body>
 </html>
