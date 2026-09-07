@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- Aksesibilitas: Deklarasi bahasa dokumen untuk pembaca layar (screen reader) -->
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Aksesibilitas: Viewport responsif untuk perangkat mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kost Ibu Rina</title>
+</head>
+<body>
+
+    <!-- Header & Navigasi Landmark Semantik -->
+    <header>
+        <!-- Aksesibilitas: aria-label memperjelas konteks navigasi utama -->
+        <nav aria-label="Navigasi Utama">
+            <h2>Kost Ibu Rina</h2>
+            <ul>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#kamar">Daftar Kamar</a></li>
+                <li><a href="#tur">Tur Fasilitas</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Konten Utama Halaman (Landmark: main) -->
+    <main>
+        <!-- Section 1: Profil / Tentang (Hierarki heading utama h1) -->
+        <section id="tentang" aria-labelledby="heading-tentang">
+            <h1 id="heading-tentang">Kost Ibu Rina</h1>
+            <p>Hunian sewa mandiri 3 kamar yang nyaman, bersih, dan strategis.</p>
+        </section>
+    </main>
+
+</body>
+</html>
