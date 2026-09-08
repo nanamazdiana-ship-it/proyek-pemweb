@@ -9,9 +9,9 @@ Repositori ini memuat struktur HTML5 semantik dan aksesibilitas web dasar untuk 
 
 ## 2. Cara Menjalankan Aplikasi
 1. Jalankan aplikasi server lokal **Laragon 5** (pastikan modul Apache aktif).
-2. Simpan folder repositori ini pada direktori: `C:\laragon\www\pemweb-obe`.
+2. Simpan folder repositori ini pada direktori: `C:\laragon\www\proyek-semester`.
 3. Buka peramban web dan akses alamat:
-   `http://localhost/pemweb-obe/`
+   `http://localhost/proyek-semester/`
 
 ## 3. Sitemap & Wireframe Sederhana
 ### A. Sitemap Halaman Utama
