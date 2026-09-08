@@ -1,82 +1,107 @@
-<!DOCTYPE html>
-<!-- Aksesibilitas: Bahasa dokumen terdefinisi -->
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <!-- Aksesibilitas: Viewport responsif -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kost Ibu Rina</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kost Pak Sapriadi</title>
 </head>
 <body>
 
-    <!-- Navigasi -->
-    <header>
-        <nav aria-label="Navigasi Utama">
-            <h2>Kost Ibu Rina</h2>
-            <ul>
-                <li><a href="#tentang">Tentang</a></li>
-                <li><a href="#kamar">Kamar</a></li>
-                <li><a href="#tur">Tur</a></li>
-                <li><a href="#pesan">Pesan</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- Navigasi Utama Halaman (Syarat: nav) -->
+  <header>
+    <nav aria-label="Navigasi Utama">
+      <ul>
+        <li><a href="#tentang">Tentang Kost</a></li>
+        <li><a href="#katalog">Katalog Unit</a></li>
+        <li><a href="#kontak">Hubungi Kami</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- Konten Utama -->
-    <main>
-        <!-- Section 1: Profil (Heading h1) -->
-        <section id="tentang">
-            <h1>Selamat Datang di Kost Ibu Rina</h1>
-            <p>Hunian sewa nyaman dan strategis dengan tiga unit kamar.</p>
-        </section>
+  <!-- Konten Pokok Dokumen (Syarat: main) -->
+  <main>
 
-        <!-- Section 2: Informasi Kamar (Heading h2 & 1 Article) -->
-        <section id="kamar">
-            <h2>Daftar Kamar</h2>
-            <article>
-                <!-- Heading h3 berurutan logis di bawah h2 -->
-                <h3>Kamar 01</h3>
-                <p>Harga: Rp850.000 / bulan</p>
-                <p>Status: Tersedia</p>
-            </article>
-        </section>
+    <!-- SECTION 1: PROFIL (Syarat: h1 tunggal dan section ke-1) -->
+    <section id="tentang">
+      <h1>Kost Pak Sapriadi</h1>
+      <p>Layanan hunian sewa 3 pintu yang tenang dan strategis dekat kampus. Setiap pintu memiliki ruang tengah, 2 kamar tidur di dalamnya, dapur, dan toilet dengan tarif Rp 1.000.000 per bulan.</p>
+    </section>
 
-        <!-- Section 3: Tur Fasilitas -->
-        <section id="tur">
-            <h2>Tur Fasilitas Kost</h2>
-            <!-- Aksesibilitas: alt mendeskripsikan isi gambar denah -->
-            <img src="denah-kost.jpg" alt="Denah tata letak alur pintu masuk menuju kamar, dapur, dan toilet">
-        </section>
+    <!-- SECTION 2: DAFTAR UNIT (Syarat: section ke-2 dan minimal 1 article) -->
+    <section id="katalog">
+      <h2>Daftar Ketersediaan Unit</h2>
 
-        <!-- Form Pemesanan -->
-        <section id="pesan">
-            <h2>Form Pengajuan Sewa</h2>
-            <form action="#" method="post">
-                <!-- Aksesibilitas: label eksplisit berpasangan dengan id -->
-                <p>
-                    <label for="nama">Nama Lengkap:</label>
-                    <input type="text" id="nama" name="nama" required>
-                </p>
-                <p>
-                    <label for="kontak">Nomor HP / WhatsApp:</label>
-                    <input type="tel" id="kontak" name="kontak" required>
-                </p>
-                <p>
-                    <label for="kamar-pilihan">Pilih Kamar:</label>
-                    <select id="kamar-pilihan" name="kamar_pilihan" required>
-                        <option value="">-- Pilih salah satu --</option>
-                        <option value="kamar-1">Kamar 01</option>
-                    </select>
-                </p>
-                <button type="submit">Kirim Pengajuan</button>
-            </form>
-        </section>
-    </main>
+      <!-- Article 1: Konten mandiri unit sewa -->
+      <article>
+        <figure>
+         <img src="pintukos.jp" alt="Tampak depan kamar unit Pintu 01 Kost Pak Sapriadi">
+         <figcaption>Unit Pintu 01</figcaption>
+        </figure>
+        <h3>Unit Pintu 01</h3>
+        <p>Status: Tersedia</p>
+        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
+        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
+      </article>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Kost Ibu Rina. Semua Hak Dilindungi.</p>
-    </footer>
+      <!-- Article 2 -->
+      <article>
+        <h3>Unit Pintu 02</h3>
+        <p>Status: Terisi</p>
+        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
+        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
+      </article>
+
+      <!-- Article 3 -->
+      <article>
+        <h3>Unit Pintu 03</h3>
+        <p>Status: Tersedia</p>
+        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
+        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
+      </article>
+    </section>
+
+    <!-- SECTION 3: FORMULIR BOOKING / KONTAK (Syarat: section ke-3 dan 1 form berlabel) -->
+    <section id="kontak">
+      <h2>Formulir Minat Sewa</h2>
+      <form action="#" method="post">
+        <!-- Pengelompokan baris menggunakan tag p, bukan div -->
+        <p>
+          <label for="nama">Nama Lengkap:</label>
+          <input type="text" id="nama" name="nama" required>
+        </p>
+
+        <p>
+          <label for="telepon">Nomor WhatsApp:</label>
+          <input type="tel" id="telepon" name="telepon" required>
+        </p>
+
+        <p>
+          <label for="pilihan-pintu">Pilih Unit Pintu:</label>
+          <select id="pilihan-pintu" name="pilihan_pintu" required>
+            <option value="">-- Pilih Unit Pintu --</option>
+            <option value="pintu-01">Pintu 01 (Tersedia)</option>
+            <option value="pintu-02">Pintu 02 (Terisi)</option>
+            <option value="pintu-03">Pintu 03 (Tersedia)</option>
+          </select>
+        </p>
+
+        <p>
+          <label for="pesan">Pesan atau Rencana Survei:</label>
+          <textarea id="pesan" name="pesan" rows="4"></textarea>
+        </p>
+
+        <p>
+          <button type="submit">Kirim</button>
+        </p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Penutup Dokumen (Syarat: footer) -->
+  <footer>
+    <p>&copy; 2026 Kost Pak Sapriadi (3 Pintu). Praktikum Pemrograman Web UBT.</p>
+  </footer>
 
 </body>
 </html>
