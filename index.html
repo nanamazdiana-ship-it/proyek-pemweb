@@ -3,76 +3,153 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kost Pak Sapriadi</title>
+  <title>Kontrakan Pak Sapriadi - Hunian Nyaman &amp; Asri (3 Pintu)</title>
+  
+  <!-- Akses file CSS eksternal di folder assets/css/ -->
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-  <!-- Navigasi Utama Halaman (Syarat: nav) -->
+  <!-- AKSESIBILITAS: SKIP NAVIGATION LINK -->
+  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+
+  <!-- HEADER & NAVIGASI UTAMA (FLEXBOX) -->
   <header>
+    <a href="#beranda" aria-label="Beranda Kontrakan Pak Sapriadi">
+      <img src="logoKost.png" alt="Logo Kontrakan Pak Sapriadi - Hunian Nyaman dan Asri" class="site-logo">
+    </a>
+
     <nav aria-label="Navigasi Utama">
       <ul>
-        <li><a href="#tentang">Tentang Kost</a></li>
+        <li><a href="#beranda">Beranda</a></li>
         <li><a href="#katalog">Katalog Unit</a></li>
+        <li><a href="#keunggulan">Keunggulan</a></li>
         <li><a href="#kontak">Hubungi Kami</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Konten Pokok Dokumen (Syarat: main) -->
-  <main>
+  <!-- KONTEN UTAMA -->
+  <main id="konten-utama">
 
-    <!-- SECTION 1: PROFIL (Syarat: h1 tunggal dan section ke-1) -->
-    <section id="tentang">
-      <h1>Kost Pak Sapriadi</h1>
-      <p>Layanan hunian sewa 3 pintu yang tenang dan strategis dekat kampus. Setiap pintu memiliki ruang tengah, 2 kamar tidur di dalamnya, dapur, dan toilet dengan tarif Rp 1.000.000 per bulan.</p>
+    <!-- SECTION 1: HERO BANNER  -->
+    <section id="beranda" class="hero-section">
+      <article class="hero-content">
+        <p class="badge-tag">📍 Kontrakan Nyaman di Kota Tarakan</p>
+        <h1>Kontrakan Pak Sapriadi<br><span>Nyaman, Aman, dan Strategis</span></h1>
+        <p class="hero-desc">
+          Kontrakan 3 pintu yang tenang dan strategis di Kota Tarakan. Setiap unit terdiri dari ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri. cocok untuk mahasiswa maupun pekerja
+        </p>
+        <p class="hero-cta">
+          <a href="#katalog" class="btn-primary">Lihat Unit Tersedia &rarr;</a>
+        </p>
+      </article>
+
+      <figure class="hero-figure">
+        <img src="pintukos.jpg" alt="Tampak Depan Bangunan Asri Kontrakan Pak Sapriadi Tarakan">
+        <figcaption>Suasana Asri Tampak Depan Kontrakan Pak Sapriadi (3 Pintu)</figcaption>
+      </figure>
     </section>
 
-   <!-- SECTION 2: DAFTAR UNIT -->
+    <!-- SECTION 2: KATALOG UNIT KAMAR (CSS GRID 2D) -->
     <section id="katalog">
-      <h2>Daftar Ketersediaan Unit</h2>
+      <h2>Pilih Unit yang Sesuai dengan Kebutuhanmu</h2>
+      <p class="section-subtitle">Tersedia 3 pintu unit kontrakan dengan fasilitas mandiri yang nyaman dan harga sewa terjangkau.</p>
 
-      <!-- Article 1: Pintu 01 (FOTO DIPINDAHKAN KE SINI) -->
-      <article>
-        <h3>Unit Pintu 01</h3>
-        <figure>
-          <img src="pintukos.jpg" alt="Tampak depan kamar unit Pintu 01 Kost Pak Sapriadi" width="300">
-          <figcaption>Unit Pintu 01</figcaption>
-        </figure>
+      <!-- Container Grid 3 Artikel Unit -->
+      <ul class="katalog-grid">
+        <!-- Article 1: Pintu 01 -->
+        <li>
+          <article class="unit-card">
+            <figure>
+              <span class="status-badge status-tersedia">Tersedia</span>
+              <img src="pintu_kost.jpeg" alt="Unit Pintu 01 Kontrakan Pak Sapriadi">
+            </figure>
+            <h3>Unit Pintu 01</h3>
+            <p class="price-tag"><strong>Rp 1.000.000</strong> / bulan</p>
+            <ul class="facility-list">
+              <li>🛋️ Ruang Tengah Luas</li>
+              <li>🛏️ 2 Kamar Tidur</li>
+              <li>🍳 Dapur Mandiri</li>
+              <li>🚽 Toilet Dalam</li>
+            </ul>
+            <a href="#kontak" class="btn-secondary">Pesan Unit 01</a>
+          </article>
+        </li>
 
-        <p>Status: Tersedia</p>
-        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
-        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
-      </article>
+        <!-- Article 2: Pintu 02 -->
+        <li>
+          <article class="unit-card">
+            <figure>
+              <span class="status-badge status-terisi">Terisi</span>
+              <img src="pintu_kost.jpeg" alt="Unit Pintu 02 Kontrakan Pak Sapriadi">
+            </figure>
+            <h3>Unit Pintu 02</h3>
+            <p class="price-tag"><strong>Rp 1.000.000</strong> / bulan</p>
+            <ul class="facility-list">
+              <li>🛋️ Ruang Tengah Luas</li>
+              <li>🛏️ 2 Kamar Tidur</li>
+              <li>🍳 Dapur Mandiri</li>
+              <li>🚽 Toilet Dalam</li>
+            </ul>
+            <button class="btn-disabled" disabled>Terisi Saat Ini</button>
+          </article>
+        </li>
 
-      <!-- Article 2: Pintu 02 -->
-      <article>
-        <h3>Unit Pintu 02</h3>
-        <p>Status: Terisi</p>
-        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
-        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
-      </article>
-
-      <!-- Article 3: Pintu 03 -->
-      <article>
-        <h3>Unit Pintu 03</h3>
-        <p>Status: Tersedia</p>
-        <p>Tarif Sewa: Rp 1.000.000 / bulan</p>
-        <p>Fasilitas: Ruang tengah, 2 kamar tidur di dalam, dapur, dan toilet mandiri.</p>
-      </article>
+        <!-- Article 3: Pintu 03 -->
+        <li>
+          <article class="unit-card">
+            <figure>
+              <span class="status-badge status-tersedia">Tersedia</span>
+              <img src="pintu_kost.jpeg" alt="Unit Pintu 03 Kontrakan Pak Sapriadi">
+            </figure>
+            <h3>Unit Pintu 03</h3>
+            <p class="price-tag"><strong>Rp 1.000.000</strong> / bulan</p>
+            <ul class="facility-list">
+              <li>🛋️ Ruang Tengah Luas</li>
+              <li>🛏️ 2 Kamar Tidur</li>
+              <li>🍳 Dapur Mandiri</li>
+              <li>🚽 Toilet Dalam</li>
+            </ul>
+            <a href="#kontak" class="btn-secondary">Pesan Unit 03</a>
+          </article>
+        </li>
+      </ul>
     </section>
-    <!-- SECTION 3: FORMULIR BOOKING / KONTAK (Syarat: section ke-3 dan 1 form berlabel) -->
+
+    <!-- SECTION 3: KEUNGGULAN / FASILITAS BERSAMA -->
+    <section id="keunggulan">
+      <h2>Kenapa Memilih Kontrakan Pak Sapriadi?</h2>
+      <ul class="feature-grid">
+        <li>
+          <h3>📍 Lokasi Strategis</h3>
+          <p>Dekat dengan kampus, dan pusat kota umum di Tarakan.</p>
+        </li>
+        <li>
+          <h3>🛡️ Aman &amp; Nyaman</h3>
+          <p>Lingkungan yang tenang dengan privasi tinggi dan keamanan terjamin.</p>
+        </li>
+        <li>
+          <h3>🏡 Fasilitas Mandiri</h3>
+          <p>Tiap pintu dilengkapi ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- SECTION 4: FORMULIR MINAT SEWA -->
     <section id="kontak">
-      <h2>Formulir Minat Sewa</h2>
+      <h2>Formulir Minat Sewa &amp; Survei</h2>
+      <p class="section-subtitle">Lengkapi formulir di bawah ini untuk mengajukan pertanyaan atau membuat janji survei lokasi.</p>
+
       <form action="#" method="post">
-        <!-- Pengelompokan baris menggunakan tag p, bukan div -->
         <p>
           <label for="nama">Nama Lengkap:</label>
-          <input type="text" id="nama" name="nama" required>
+          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama Anda">
         </p>
 
         <p>
           <label for="telepon">Nomor WhatsApp:</label>
-          <input type="tel" id="telepon" name="telepon" required>
+          <input type="tel" id="telepon" name="telepon" required placeholder="Contoh: 081234567890">
         </p>
 
         <p>
@@ -86,21 +163,21 @@
         </p>
 
         <p>
-          <label for="pesan">Pesan atau Rencana Survei:</label>
-          <textarea id="pesan" name="pesan" rows="4"></textarea>
+          <label for="pesan">Pesan / Rencana Tanggal Survei:</label>
+          <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan tanggal rencana survei atau pertanyaan Anda..."></textarea>
         </p>
 
         <p>
-          <button type="submit">Kirim</button>
+          <button type="submit" class="btn-primary">Kirim Pengajuan Sewa</button>
         </p>
       </form>
     </section>
 
   </main>
 
-  <!-- Penutup Dokumen (Syarat: footer) -->
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2026 Kost Pak Sapriadi (3 Pintu). Praktikum Pemrograman Web UBT.</p>
+    <p>&copy; 2026 Kontrakan Pak Sapriadi (3 Pintu). Praktikum Pemrograman Web UBT.</p>
   </footer>
 
 </body>
