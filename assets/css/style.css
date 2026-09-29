@@ -13,6 +13,9 @@
   --text-main: #1e293b;     /* Teks Gelap Utama */
   --text-muted: #64748b;    /* Teks Keterangan */
   --border: #e2e8f0;        /* Garis Batas Lembut */
+  --surface-muted: #f1f5f9;
+  --accent-soft: #fef2f2;
+  --accent-soft-border: #fecaca;
   --focus-ring: #2563eb;    /* Biru Terang untuk Aksesibilitas Keyboard */
 
   /* Spacing & Typography Rules */
@@ -21,6 +24,19 @@
   --radius-md: 12px;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="gelap"] {
+  color-scheme: dark;
+  --bg-page: #111827;
+  --surface: #1f2937;
+  --text-main: #f3f4f6;
+  --text-muted: #cbd5e1;
+  --border: #374151;
+  --surface-muted: #374151;
+  --accent-soft: #3b2730;
+  --accent-soft-border: #713746;
+  --focus-ring: #93c5fd;
 }
 
 *, *::before, *::after {
@@ -107,7 +123,18 @@ header nav a {
 
 header nav a:hover {
   color: var(--primary);
-  background-color: #f1f5f9;
+  background-color: var(--surface-muted);
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  color: var(--text-main);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -152,14 +179,14 @@ h2 {
 
 .badge-tag {
   display: inline-block;
-  background-color: #fef2f2;
+  background-color: var(--accent-soft);
   color: var(--primary);
   font-weight: bold;
   font-size: 0.85rem;
   padding: 0.3rem 0.8rem;
   border-radius: 50px;
   margin-bottom: 0.75rem;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--accent-soft-border);
 }
 
 .hero-content h1 {
@@ -288,7 +315,7 @@ h2 {
 }
 
 .btn-secondary {
-  background-color: #f1f5f9;
+  background-color: var(--surface-muted);
   color: var(--text-main);
   border: 1px solid var(--border);
 }
@@ -299,8 +326,8 @@ h2 {
 }
 
 .btn-disabled {
-  background-color: #e2e8f0;
-  color: #94a3b8;
+  background-color: var(--surface-muted);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
@@ -315,7 +342,7 @@ h2 {
 }
 
 .feature-grid li {
-  background: #f8fafc;
+  background: var(--bg-page);
   padding: 1rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
@@ -334,6 +361,8 @@ label {
 }
 
 input, select, textarea {
+  background: var(--surface);
+  color: var(--text-main);
   padding: 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -378,4 +407,17 @@ footer {
   padding: 2rem 0;
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+/* TUGAS 5: Tampilan kontrol filter interaktif */
+#filter-unit {
+  margin: 0.5rem 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.unit-card[hidden] {
+  display: none;
 }

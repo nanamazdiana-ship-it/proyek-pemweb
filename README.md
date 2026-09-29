@@ -1,49 +1,28 @@
-# Proyek Web Kost Pak Sapriadi (3 Pintu) - Milestone Minggu 2
+# Proyek Web Kontrakan Pak Sapriadi (3 Pintu) - Milestone Pertemuan 5
 
-Repositori ini memuat struktur HTML5 semantik dan aksesibilitas web dasar untuk Milestone Minggu 2 Mata Kuliah Pemrograman Web (26TJ453127), Jurusan Teknik Komputer, Universitas Borneo Tarakan.
+Repositori ini memuat implementasi **Interaktivitas DOM, Event Handling, Safe DOM Update, dan Web Storage (`localStorage`)** untuk Sistem Informasi Kontrakan Pak Sapriadi (3 Pintu) sebagai pemenuhan Tugas OBE Pertemuan 5 Mata Kuliah Pemrograman Web, Jurusan Teknik Komputer, Universitas Borneo Tarakan.
 
 ## 1. Deskripsi Proyek
-* **Nama Sistem:** Sistem Informasi dan Manajemen Kost Pak Sapriadi (3 Pintu)
-* **Konsep Properti:** Memiliki 3 pintu sewa mandiri dengan tarif sewa terjangkau **Rp 1.000.000 / bulan**. Di dalam setiap pintu terdapat ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri.
-* **Tujuan Web:** Menyajikan status ketersediaan 3 unit pintu, pelaporan kerusakan sarana, dan transaksi pembayaran sewa.
+* **Nama Sistem:** Landing Page & Informasi Kontrakan Pak Sapriadi (3 Pintu)
+* **Spesifikasi Properti:** Properti sewa berupa 3 unit pintu kontrakan mandiri dengan tarif **Rp 1.000.000 / bulan**. Setiap unit memiliki fasilitas ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri.
+* **Tujuan Web:** Menyajikan antarmuka dinamis interaktif yang memudahkan calon penyewa melakukan penyaringan kondisi unit, melihat detail unit, memilih preferensi tema visual, serta mengajukan minat sewa dengan umpan balik instan.
 
 ## 2. Cara Menjalankan Aplikasi
-1. Jalankan aplikasi server lokal **Laragon 5** (pastikan modul Apache aktif).
-2. Simpan folder repositori ini pada direktori: `C:\laragon\www\proyek-semester`.
-3. Buka peramban web dan akses alamat:
-   `http://localhost/proyek-semester/`
+1. Aktifkan server lokal **Laragon 5** (pastikan modul Apache aktif).
+2. Simpan folder repositori ini pada direktori: `C:\laragon\www\proyek Semester` (atau `C:\laragon\www\pemweb-obe`).
+3. Buka peramban web dan akses melalui alamat URL:
+   `http://localhost/proyek Semester/`
 
-## 3. Sitemap & Wireframe Sederhana
-### A. Sitemap Halaman Utama
-- Header & Navigasi Utama
-  - #tentang (Profil & Judul Utama H1)
-  - #katalog (Daftar 3 Pintu Kost)
-  - #kontak (Formulir Minat Sewa)
-- Footer
+## 3. Dokumentasi Alur Event & State Sederhana (3 Interaksi Bermakna)
 
-### B. Wireframe Sederhana
-+-------------------------------------------------------+
-| HEADER: Kost Pak Sapriadi | Nav: Tentang, Katalog, Kontak
-+-------------------------------------------------------+
-| MAIN                                                  |
-|  [SECTION 1: H1 Judul Utama & Profil Kost]            |
-|                                                       |
-|  [SECTION 2: Katalog Kamar 3 Pintu]                   |
-|   - ARTICLE: Pintu 01 (Status: Tersedia)              |
-|   - ARTICLE: Pintu 02 (Status: Terisi)                |
-|   - ARTICLE: Pintu 03 (Status: Tersedia)              |
-|                                                       |
-|  [SECTION 3: Formulir Minat Sewa]                     |
-|   - Label & Input: Nama, WhatsApp, Pilihan Pintu, Pesan|
-|   - Tombol Kirim                                      |
-+-------------------------------------------------------+
-| FOOTER: Hak Cipta © 2026 Kost Pak Sapriadi (3 Pintu)  |
-+-------------------------------------------------------+
+### Interaksi 1: Filter Kondisi & Pencarian Real-Time (`input` & `click` Event)
+* **Alur Event:** Pengguna mengetik kata kunci pada kolom pencarian atau mengklik tombol filter kondisi (`Semua`, `Baik`, `Perlu Cek`). Event listener `input` / `click` menyaring array data `unitKontrakan` di memori, lalu memanggil fungsi `renderKatalog()`.
+* **Safe DOM Update:** Pengisian kartu dinamis dilakukan murni menggunakan `document.createElement()`, `textContent`, dan `replaceChildren()` tanpa `innerHTML` berisiko XSS.
 
-## 4. Checklist Aksesibilitas Dasar (Self-Review)
-- [x] Dokumen menggunakan `lang="id"`.
-- [x] Struktur semantik lengkap: `header`, `nav`, `main`, 3 `section`, `article`, `form`, dan `footer`.
-- [x] Halaman bebas dari penggunaan tag `<div>` yang tidak bermakna.
-- [x] Hierarki heading logis dan berurutan (`h1` -> `h2` -> `h3`).
-- [x] Setiap kolom form terhubung dengan elemen `label` melalui atribut `for` dan `id`.
-- [x] Navigasi keyboard (tombol Tab) dapat menjangkau seluruh link, input, dan tombol aksi.
+### Interaksi 2: Ringkasan Detail Unit via Event Delegation (`click` Event)
+* **Alur Event:** Listener dipasang pada wadah induk (`#daftar-alat`). Ketika tombol detail pada kartu yang dirender diklik, event merambat (*event bubbling*) dan dibaca oleh `e.target.closest('[data-detail]')` untuk memunculkan pesan ringkasan unit.
+
+### Interaksi 3: Preferensi Tema Visual (`localStorage` Web Storage)
+* **Alur Event:** Tombol "Ganti Tema" mengubah atribut `data-theme` pada root dokumen HTML dan menyimpan nilai (`light`/`dark`) ke `localStorage`.
+* **Restorasi State:** Saat halaman dimuat/di-refresh, nilai `localStorage.getItem('theme')` dibaca kembali untuk memulihkan mode tema tanpa memerlukan database.
+* **Data Non-Sensitif:** Web Storage murni digunakan untuk preferensi antarmuka pengguna (UI theme), bukan kredensial/token rahasia.
