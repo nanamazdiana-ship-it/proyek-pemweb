@@ -143,6 +143,7 @@ function renderPilihanPintu() {
     const opsi = document.createElement("option");
     opsi.value = idUnit;
     opsi.textContent = `${unit.nama} (${unit.status})`;
+    opsi.dataset.status = unit.status.toLowerCase();
     pilihanPintu.append(opsi);
   });
 }
@@ -201,16 +202,116 @@ containerKatalog.addEventListener("click", (event) => {
 // ------------------------------------------------------------------
 // Interaksi 4 (event: submit) — umpan balik setelah validasi HTML berhasil.
 // ------------------------------------------------------------------
+const kolomForm = [...formulir.querySelectorAll("input, select, textarea")];
+const kolomNama = formulir.querySelector("#nama");
+const kolomTelepon = formulir.querySelector("#telepon");
+const polaNama = /^[\p{L}]+(?:[ '-][\p{L}]+)*$/u;
+const pesanKesalahan = (kolom) => {
+  if (kolom.validity.customError) {
+    if (kolom.id === "pilihan-pintu") return kolom.validationMessage;
+    if (kolom.id === "nama") return "Nama hanya boleh berisi huruf dan pemisah nama, tanpa angka atau simbol lain.";
+    if (kolom.id === "telepon") return "Nomor WhatsApp hanya boleh berisi 9 sampai 15 angka.";
+  }
+  if (kolom.validity.valueMissing) {
+    return "Kolom ini wajib diisi.";
+  }
+  if (kolom.id === "nama" && kolom.validity.patternMismatch) {
+    return "Nama hanya boleh berisi huruf, spasi, tanda hubung, atau apostrof.";
+  }
+  if (kolom.id === "nama" && kolom.validity.tooShort) {
+    return "Nama harus terdiri dari minimal 2 karakter.";
+  }
+  if (kolom.id === "telepon" && (kolom.validity.patternMismatch || kolom.validity.tooShort || kolom.validity.tooLong)) {
+    return "Nomor WhatsApp harus terdiri dari 9 sampai 15 angka tanpa spasi atau tanda baca.";
+  }
+  if (kolom.validity.tooLong) {
+    return "Isi kolom ini terlalu panjang.";
+  }
+  return "Periksa kembali isi kolom ini.";
+};
+
+function perbaruiValidasi(kolom) {
+  const errorEl = document.getElementById(`${kolom.id}-error`);
+  const tidakValid = !kolom.validity.valid;
+  kolom.setAttribute("aria-invalid", String(tidakValid));
+  errorEl.textContent = tidakValid ? pesanKesalahan(kolom) : "";
+  return tidakValid;
+}
+
+kolomForm.forEach((kolom) => {
+  const hapusStatusLama = () => {
+    const statusKirim = formulir.querySelector("#status-kirim");
+    if (statusKirim) statusKirim.textContent = "";
+  };
+  kolom.addEventListener("input", () => {
+    hapusStatusLama();
+    perbaruiValidasi(kolom);
+  });
+  kolom.addEventListener("change", () => {
+    hapusStatusLama();
+    perbaruiValidasi(kolom);
+  });
+});
+
+function perbaruiAturanKhusus() {
+  kolomNama.setCustomValidity(kolomNama.value && !polaNama.test(kolomNama.value)
+    ? "Nama hanya boleh berisi huruf dan pemisah nama, tanpa angka atau simbol lain."
+    : "");
+  kolomTelepon.setCustomValidity(kolomTelepon.value && !/^\d{9,15}$/.test(kolomTelepon.value)
+    ? "Nomor WhatsApp hanya boleh berisi 9 sampai 15 angka."
+    : "");
+  const opsiUnit = pilihanPintu.selectedOptions[0];
+  pilihanPintu.setCustomValidity(opsiUnit?.dataset.status === "terisi"
+    ? `${opsiUnit.textContent.trim()} sudah terisi. Silakan pilih unit yang tersedia.`
+    : "");
+}
+
+kolomNama.addEventListener("input", () => {
+  perbaruiAturanKhusus();
+  perbaruiValidasi(kolomNama);
+});
+kolomTelepon.addEventListener("input", () => {
+  perbaruiAturanKhusus();
+  perbaruiValidasi(kolomTelepon);
+});
+pilihanPintu.addEventListener("change", () => {
+  perbaruiAturanKhusus();
+  perbaruiValidasi(pilihanPintu);
+});
+
 formulir.addEventListener("submit", (event) => {
   event.preventDefault();
   let statusKirim = formulir.querySelector("#status-kirim");
+  if (statusKirim) statusKirim.textContent = "";
+  // Normalisasi spasi tepi sebelum validasi dan sebelum nilai diringkas.
+  formulir.querySelector("#nama").value = formulir.querySelector("#nama").value.trim().replace(/\s+/g, " ");
+  formulir.querySelector("#telepon").value = formulir.querySelector("#telepon").value.trim();
+  formulir.querySelector("#pesan").value = formulir.querySelector("#pesan").value.trim();
+  perbaruiAturanKhusus();
+  const kolomTidakValid = kolomForm.filter(perbaruiValidasi);
+  if (kolomTidakValid.length > 0) {
+    kolomTidakValid[0].focus();
+    kolomTidakValid[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
   if (!statusKirim) {
     statusKirim = document.createElement("p");
     statusKirim.id = "status-kirim";
     statusKirim.setAttribute("role", "status");
+    statusKirim.tabIndex = -1;
     formulir.append(statusKirim);
   }
-  statusKirim.textContent =
-    "Terima kasih! Pengajuan Anda tercatat di halaman ini. Silakan hubungi pemilik melalui WhatsApp untuk konfirmasi.";
+  const nama = formulir.querySelector("#nama").value;
+  const unit = pilihanPintu.selectedOptions[0].textContent.trim();
+  statusKirim.textContent = `Ringkasan pengajuan: ${nama}, nomor WhatsApp ${formulir.querySelector("#telepon").value}, pilihan ${unit}. Terima kasih! Pengajuan Anda tercatat di halaman ini. Silakan hubungi pemilik melalui WhatsApp untuk konfirmasi.`;
   formulir.reset();
+  kolomNama.setCustomValidity("");
+  kolomTelepon.setCustomValidity("");
+  kolomForm.forEach((kolom) => {
+    kolom.setAttribute("aria-invalid", "false");
+    const errorEl = document.getElementById(`${kolom.id}-error`);
+    if (errorEl) errorEl.textContent = "";
+  });
+  statusKirim.focus();
 });

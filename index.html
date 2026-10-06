@@ -135,28 +135,33 @@
       <h2>Formulir Minat Sewa &amp; Survei</h2>
       <p class="section-subtitle">Lengkapi formulir di bawah ini untuk mengajukan pertanyaan atau membuat janji survei lokasi.</p>
 
-      <form action="#" method="post">
+      <form action="#" method="post" novalidate aria-describedby="petunjuk-form">
+        <p id="petunjuk-form">Kolom bertanda wajib diisi. Nama hanya boleh berisi huruf dan spasi; nomor WhatsApp hanya boleh berisi 9–15 angka.</p>
         <p>
-          <label for="nama">Nama Lengkap:</label>
-          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama Anda">
+          <label for="nama">Nama Lengkap <span aria-hidden="true">(wajib)</span>:</label>
+          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama Anda" autocomplete="name" minlength="2" maxlength="80" pattern="[A-Za-zÀ-ÖØ-öø-ÿĀ-ž]+(?:[ '-][A-Za-zÀ-ÖØ-öø-ÿĀ-ž]+)*" title="Gunakan huruf, spasi, tanda hubung, atau apostrof saja." aria-describedby="nama-error" aria-invalid="false">
+          <span class="field-error" id="nama-error" aria-live="polite"></span>
         </p>
 
         <p>
-          <label for="telepon">Nomor WhatsApp:</label>
-          <input type="tel" id="telepon" name="telepon" required placeholder="Contoh: 081234567890">
+          <label for="telepon">Nomor WhatsApp <span aria-hidden="true">(wajib)</span>:</label>
+          <input type="tel" id="telepon" name="telepon" required placeholder="Contoh: 081234567890" autocomplete="tel" inputmode="numeric" minlength="9" maxlength="15" pattern="[0-9]{9,15}" title="Masukkan 9 sampai 15 angka tanpa spasi atau tanda baca." aria-describedby="telepon-error" aria-invalid="false">
+          <span class="field-error" id="telepon-error" aria-live="polite"></span>
         </p>
 
         <p>
-          <label for="pilihan-pintu">Pilih Unit Pintu:</label>
+          <label for="pilihan-pintu">Pilih Unit Pintu <span aria-hidden="true">(wajib)</span>:</label>
           <!-- Opsi dropdown diisi otomatis oleh renderPilihanPintu() di script.js (Modul 05), dari data.js (Modul 04) -->
           <select id="pilihan-pintu" name="pilihan_pintu" required>
             <option value="">-- Pilih Unit Pintu --</option>
           </select>
+          <span class="field-error" id="pilihan-pintu-error" aria-live="polite"></span>
         </p>
 
         <p>
           <label for="pesan">Pesan / Rencana Tanggal Survei:</label>
-          <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan tanggal rencana survei atau pertanyaan Anda..."></textarea>
+          <textarea id="pesan" name="pesan" rows="4" maxlength="1000" placeholder="Tuliskan tanggal rencana survei atau pertanyaan Anda..." aria-describedby="pesan-error"></textarea>
+          <span class="field-error" id="pesan-error" aria-live="polite"></span>
         </p>
 
         <p>
@@ -178,7 +183,7 @@
     MODUL 05 — script.js meng-import data & fungsi dari data.js, lalu
     merender DOM dan menangani semua interaksi/event di halaman ini.
   -->
-  <script type="module" src="assets/js/script.js"></script>
+  <script type="module" src="assets/js/script.js?v=3"></script>
 
 </body>
 </html>

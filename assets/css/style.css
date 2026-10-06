@@ -369,6 +369,24 @@ input, select, textarea {
   font-size: 1rem;
 }
 
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border-color: #b42318;
+}
+
+.field-error {
+  color: #b42318;
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+#kontak form [id$="-error"]:empty {
+  display: none;
+}
+
+#status-kirim {
+  scroll-margin-block: 1rem;
+}
+
 /* ==========================================================================
    8. MEDIA QUERIES (MOBILE-FIRST BREAKPOINTS)
    ========================================================================== */
