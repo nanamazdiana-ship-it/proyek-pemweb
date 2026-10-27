@@ -1,0 +1,11 @@
+
+# File konfigurasi rahasia
+.env
+
+# Dependensi Composer
+/vendor/
+
+# File sementara dan log
+*.log
+.DS_Store
+Thumbs.db
