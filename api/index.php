@@ -247,69 +247,223 @@ try {
         // ====================================================
         case 'units':
 
+            // Validasi bersama untuk pembuatan dan perubahan unit.
+            $validateUnit = static function (array $body): array {
+                $errors = [];
+                $nameInput = $body['nama_unit'] ?? null;
+                $name = is_string($nameInput) ? trim($nameInput) : '';
+                $priceInput = $body['harga_sewa'] ?? null;
+                $statusInput = $body['status_unit'] ?? null;
+                $status = is_string($statusInput) ? trim($statusInput) : '';
+                $descriptionInput = $body['deskripsi'] ?? '';
+                $description = is_string($descriptionInput)
+                    ? trim($descriptionInput)
+                    : '';
+
+                if (
+                    !is_string($nameInput)
+                    || mb_strlen($name) < 2
+                    || mb_strlen($name) > 100
+                ) {
+                    $errors['nama_unit'] = 'Nama unit harus 2–100 karakter.';
+                }
+
+                if (
+                    (!is_int($priceInput) && !is_float($priceInput)
+                        && !(is_string($priceInput) && is_numeric($priceInput)))
+                    || !is_finite((float) $priceInput)
+                    || (float) $priceInput <= 0
+                    || (float) $priceInput > 9999999999.99
+                ) {
+                    $errors['harga_sewa'] = 'Harga harus berupa angka positif maksimal 9.999.999.999,99.';
+                }
+
+                if (
+                    !is_string($statusInput)
+                    || !in_array($status, ['Tersedia', 'Terisi'], true)
+                ) {
+                    $errors['status_unit'] = 'Status harus Tersedia atau Terisi.';
+                }
+
+                if (!is_string($descriptionInput) || mb_strlen($description) > 2000) {
+                    $errors['deskripsi'] = 'Deskripsi maksimal 2.000 karakter.';
+                }
+
+                return [[
+                    'nama_unit' => $name,
+                    'harga_sewa' => (float) $priceInput,
+                    'status_unit' => $status,
+                    'deskripsi' => $description,
+                ], $errors];
+            };
+
             // ------------------------------------------------
-            // MENAMPILKAN SEMUA UNIT
-            // GET: ?r=units
+            // MEMBACA, MENCARI, DAN MEMFILTER UNIT
+            // GET: ?r=units&q=pintu&status=Tersedia
             // ------------------------------------------------
             if ($method === 'GET') {
-                Http::ok(
-                    $q(
-                        'SELECT
-                            id_unit,
-                            nama_unit,
-                            harga_sewa,
-                            status_unit,
-                            deskripsi
-                         FROM unit_kontrakan
-                         ORDER BY id_unit'
-                    )->fetchAll()
-                );
+                $searchInput = $_GET['q'] ?? '';
+                $statusInput = $_GET['status'] ?? '';
+
+                if (!is_string($searchInput) || !is_string($statusInput)) {
+                    Http::fail(422, 'Parameter pencarian/filter harus berupa teks.');
+                }
+
+                $search = trim($searchInput);
+                $status = trim($statusInput);
+
+                if (mb_strlen($search) > 100) {
+                    Http::fail(422, 'Pencarian maksimal 100 karakter.', [
+                        'q' => 'Pencarian maksimal 100 karakter.',
+                    ]);
+                }
+
+                if ($status !== '' && !in_array($status, ['Tersedia', 'Terisi'], true)) {
+                    Http::fail(422, 'Filter status tidak valid.', [
+                        'status' => 'Pilih Tersedia atau Terisi.',
+                    ]);
+                }
+
+                $where = [];
+                $params = [];
+
+                if ($search !== '') {
+                    $where[] = '(nama_unit LIKE ? OR deskripsi LIKE ?)';
+                    $params[] = '%' . $search . '%';
+                    $params[] = '%' . $search . '%';
+                }
+
+                if ($status !== '') {
+                    $where[] = 'status_unit = ?';
+                    $params[] = $status;
+                }
+
+                $sql = 'SELECT id_unit, nama_unit, harga_sewa, status_unit, deskripsi
+                        FROM unit_kontrakan';
+
+                if ($where) {
+                    $sql .= ' WHERE ' . implode(' AND ', $where);
+                }
+
+                $sql .= ' ORDER BY id_unit';
+                Http::ok($q($sql, $params)->fetchAll());
             }
 
             // ------------------------------------------------
-            // MENGUBAH STATUS UNIT
+            // MEMBUAT UNIT
+            // POST: ?r=units
+            // ------------------------------------------------
+            if ($method === 'POST') {
+                Http::need('admin');
+                $b = Http::body();
+                [$unit, $errors] = $validateUnit($b);
+
+                if ($errors) {
+                    Http::fail(422, 'Data unit tidak valid.', $errors);
+                }
+
+                $q(
+                    'INSERT INTO unit_kontrakan
+                        (nama_unit, harga_sewa, status_unit, deskripsi)
+                     VALUES (?, ?, ?, ?)',
+                    [$unit['nama_unit'], $unit['harga_sewa'], $unit['status_unit'], $unit['deskripsi']]
+                );
+
+                Http::ok([
+                    'id_unit' => (int) $db->lastInsertId(),
+                    ...$unit,
+                ], 201);
+            }
+
+            // ------------------------------------------------
+            // MEMPERBARUI SEMUA DATA UNIT
             // PUT: ?r=units/{id}
             // ------------------------------------------------
             if ($method === 'PUT' && $id !== null) {
                 Http::need('admin');
 
-                $b = Http::body();
-                $status = Http::str($b, 'status_unit');
-
-                if (!in_array(
-                    $status,
-                    ['Tersedia', 'Terisi'],
-                    true
-                )) {
-                    Http::fail(
-                        422,
-                        'Status unit harus Tersedia atau Terisi.'
-                    );
+                if (!ctype_digit((string) $id) || (int) $id < 1) {
+                    Http::fail(400, 'ID unit tidak valid.');
                 }
 
-                $unit = $q(
+                $unitId = (int) $id;
+                $b = Http::body();
+                [$unit, $errors] = $validateUnit($b);
+
+                if ($errors) {
+                    Http::fail(422, 'Data unit tidak valid.', $errors);
+                }
+
+                $existing = $q(
                     'SELECT id_unit FROM unit_kontrakan WHERE id_unit = ?',
-                    [(int) $id]
+                    [$unitId]
                 )->fetch();
 
-                if (!$unit) {
+                if (!$existing) {
                     Http::fail(404, 'Unit tidak ditemukan.');
                 }
 
                 $q(
                     'UPDATE unit_kontrakan
-                     SET status_unit = ?
+                     SET nama_unit = ?, harga_sewa = ?, status_unit = ?, deskripsi = ?
                      WHERE id_unit = ?',
-                    [$status, (int) $id]
+                    [$unit['nama_unit'], $unit['harga_sewa'], $unit['status_unit'], $unit['deskripsi'], $unitId]
                 );
 
                 Http::ok([
-                    'id_unit' => (int) $id,
-                    'status_unit' => $status,
+                    'id_unit' => $unitId,
+                    ...$unit,
                 ]);
             }
 
-            break;
+            // ------------------------------------------------
+            // MENGHAPUS UNIT YANG BELUM MEMILIKI RIWAYAT
+            // DELETE: ?r=units/{id}
+            // ------------------------------------------------
+            if ($method === 'DELETE' && $id !== null) {
+                Http::need('admin');
+
+                if (!ctype_digit((string) $id) || (int) $id < 1) {
+                    Http::fail(400, 'ID unit tidak valid.');
+                }
+
+                $unitId = (int) $id;
+                $existing = $q(
+                    'SELECT id_unit FROM unit_kontrakan WHERE id_unit = ?',
+                    [$unitId]
+                )->fetch();
+
+                if (!$existing) {
+                    Http::fail(404, 'Unit tidak ditemukan.');
+                }
+
+                $hasHistory = (int) $q(
+                    'SELECT
+                        (SELECT COUNT(*) FROM pengajuan_sewa WHERE id_unit = ?) +
+                        (SELECT COUNT(*) FROM penghuni WHERE id_unit = ?) +
+                        (SELECT COUNT(*) FROM pengaduan_fasilitas WHERE id_unit = ?)',
+                    [$unitId, $unitId, $unitId]
+                )->fetchColumn();
+
+                if ($hasHistory > 0) {
+                    Http::fail(409, 'Unit tidak dapat dihapus karena sudah memiliki riwayat pengajuan, penghuni, atau pengaduan.');
+                }
+
+                try {
+                    $q('DELETE FROM unit_kontrakan WHERE id_unit = ?', [$unitId]);
+                } catch (\PDOException $e) {
+                    if ($e->getCode() === '23000') {
+                        Http::fail(409, 'Unit tidak dapat dihapus karena sudah memiliki data terkait.');
+                    }
+
+                    throw $e;
+                }
+
+                Http::ok(['id_unit' => $unitId, 'deleted' => true]);
+            }
+
+            header('Allow: GET, POST, PUT, DELETE');
+            Http::fail(405, 'Metode tidak diizinkan untuk endpoint unit.');
 
         // ====================================================
         // DATA PENGGUNA / PENGHUNI

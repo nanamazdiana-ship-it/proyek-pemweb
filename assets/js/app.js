@@ -57,7 +57,7 @@ export async function api(route, { method = 'GET', body } = {}) {
   // [PERBAIKAN] Normalisasi data unit dari API.
   const data = json?.data;
 
-  if (route === 'units' && Array.isArray(data)) {
+  if (route.split('&')[0] === 'units' && Array.isArray(data)) {
     return data.map(normalisasiUnit);
   }
 
@@ -458,6 +458,10 @@ function formMinat() {
 async function halamanAdmin() {
   if (!await butuhLogin('admin')) return;
 
+  let unitSearch = '';
+  let unitFilter = '';
+  let unitEditor = null;
+
   const panel = {
     // Panel Ringkasan: kartu statistik dari endpoint stats.
     ringkasan: async () => {
@@ -483,45 +487,160 @@ async function halamanAdmin() {
       );
     },
 
-    // Panel Unit: dropdown status langsung menyimpan ke API.
-    unit: async () => {
-      const units = await api('units');
+    // CRUD unit lengkap, dengan pencarian nama/deskripsi dan filter status.
+    unit: async (refresh) => {
+      const query = new URLSearchParams();
+      if (unitSearch) query.set('q', unitSearch);
+      if (unitFilter) query.set('status', unitFilter);
+      const queryText = query.toString();
+      const route = `units${queryText ? `&${queryText}` : ''}`;
+      const units = await api(route);
+      const editing = unitEditor;
 
-      return tabel(
-        [
-          { j: 'Unit', f: (u) => u.nama },
-          { j: 'Harga', f: (u) => `${rupiah(u.harga)} / bln` },
-          { j: 'Fasilitas', f: (u) => u.fasilitas },
-          {
-            j: 'Status',
-            f: (u) =>
-              h(
-                'select',
-                {
-                  class: 'inline-select',
-                  'aria-label': `Status ${u.nama}`,
-                  onchange: async (e) => {
+      const searchForm = h(
+        'form',
+        {
+          class: 'toolbar',
+          role: 'search',
+          onsubmit: async (e) => {
+            e.preventDefault();
+            unitSearch = e.currentTarget.elements.q.value.trim();
+            unitFilter = e.currentTarget.elements.status.value;
+            unitEditor = null;
+            await refresh();
+          }
+        },
+        h('label', { for: 'unit-cari' }, 'Cari unit'),
+        h('input', {
+          id: 'unit-cari', name: 'q', type: 'search', maxlength: 100,
+          class: 'inline-select',
+          value: unitSearch, placeholder: 'Nama atau deskripsi'
+        }),
+        h('label', { for: 'unit-filter' }, 'Filter status'),
+        h(
+          'select',
+          { id: 'unit-filter', name: 'status', class: 'inline-select' },
+          h('option', { value: '' }, 'Semua status'),
+          h('option', { value: 'Tersedia', selected: unitFilter === 'Tersedia' }, 'Tersedia'),
+          h('option', { value: 'Terisi', selected: unitFilter === 'Terisi' }, 'Terisi')
+        ),
+        h('button', { class: 'btn btn-primary', type: 'submit' }, 'Terapkan')
+      );
+
+      const field = (label, id, input, key) => h(
+        'div',
+        {},
+        h('label', { for: id }, label),
+        input,
+        h('small', { class: 'field-error', 'data-error': key })
+      );
+
+      const editorForm = h(
+        'form',
+        {
+          class: 'form',
+          onsubmit: async (e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const statusBox = form.querySelector('[role="status"]');
+            const body = {
+              nama_unit: form.elements.nama_unit.value.trim(),
+              harga_sewa: form.elements.harga_sewa.value,
+              status_unit: form.elements.status_unit.value,
+              deskripsi: form.elements.deskripsi.value.trim()
+            };
+
+            form.querySelectorAll('[data-error]').forEach((el) => { el.textContent = ''; });
+            statusBox.textContent = '';
+
+            try {
+              await api(editing ? `units/${editing.id}` : 'units', {
+                method: editing ? 'PUT' : 'POST',
+                body
+              });
+              unitEditor = null;
+              pesan(editing ? 'Data unit berhasil diperbarui.' : 'Unit berhasil ditambahkan.');
+              await refresh();
+            } catch (err) {
+              Object.entries(err.fields || {}).forEach(([key, message]) => {
+                const fieldError = form.querySelector(`[data-error="${key}"]`);
+                if (fieldError) fieldError.textContent = message;
+              });
+              statusBox.textContent = err.message;
+            }
+          }
+        },
+        h('h2', {}, editing ? 'Edit unit' : 'Tambah unit'),
+        field('Nama unit', 'unit-nama', h('input', {
+          id: 'unit-nama', name: 'nama_unit', required: true, minlength: 2,
+          maxlength: 100, value: editing?.nama || ''
+        }), 'nama_unit'),
+        field('Harga sewa per bulan (Rp)', 'unit-harga', h('input', {
+          id: 'unit-harga', name: 'harga_sewa', type: 'number', required: true,
+          min: '0.01', max: '9999999999.99', step: '0.01',
+          value: editing?.harga || ''
+        }), 'harga_sewa'),
+        field('Status', 'unit-status', h(
+          'select',
+          { id: 'unit-status', name: 'status_unit', required: true },
+          ['Tersedia', 'Terisi'].map((value) =>
+            h('option', { value, selected: (editing?.status || 'Tersedia') === value }, value)
+          )
+        ), 'status_unit'),
+        field('Deskripsi / fasilitas', 'unit-deskripsi', h(
+          'textarea',
+          { id: 'unit-deskripsi', name: 'deskripsi', maxlength: 2000, rows: 3 },
+          editing?.fasilitas || ''
+        ), 'deskripsi'),
+        h('p', { role: 'status', class: 'notice error', 'aria-live': 'polite' }),
+        h('div', { class: 'toolbar' },
+          h('button', { class: 'btn btn-primary', type: 'submit' }, editing ? 'Simpan perubahan' : 'Tambah unit'),
+          editing && h('button', {
+            class: 'btn btn-ghost', type: 'button',
+            onclick: async () => { unitEditor = null; await refresh(); }
+          }, 'Batal edit')
+        )
+      );
+
+      return h(
+        'div',
+        {},
+        searchForm,
+        editorForm,
+        h('h2', {}, 'Daftar unit'),
+        tabel(
+          [
+            { j: 'Unit', f: (u) => u.nama },
+            { j: 'Harga', f: (u) => `${rupiah(u.harga)} / bln` },
+            { j: 'Deskripsi', f: (u) => u.fasilitas || '-' },
+            { j: 'Status', f: (u) => badge(u.status) },
+            {
+              j: 'Aksi',
+              f: (u) => h('div', { class: 'toolbar' },
+                h('button', {
+                  class: 'btn btn-ghost btn-sm', type: 'button',
+                  onclick: async () => { unitEditor = u; await refresh(); }
+                }, 'Edit'),
+                h('button', {
+                  class: 'btn btn-accent btn-sm', type: 'button',
+                  onclick: async () => {
+                    if (!confirm(`Hapus ${u.nama}? Unit yang memiliki riwayat tidak dapat dihapus.`)) return;
                     try {
-                      await api(`units/${u.id}`, {
-                        method: 'PUT',
-                        body: { status_unit: e.target.value }
-                      });
-
-                      pesan(`${u.nama} kini ${e.target.value}.`);
-                    } catch (er) {
-                      pesan(er.message, true);
-                      e.target.value = u.status;
+                      await api(`units/${u.id}`, { method: 'DELETE' });
+                      if (unitEditor?.id === u.id) unitEditor = null;
+                      pesan('Unit berhasil dihapus.');
+                      await refresh();
+                    } catch (err) {
+                      pesan(err.message, true);
                     }
                   }
-                },
-                ['Tersedia', 'Terisi'].map((s) =>
-                  h('option', { value: s, selected: s === u.status }, s)
-                )
+                }, 'Hapus')
               )
-          },
-        ],
-        units,
-        'Belum ada unit.'
+            }
+          ],
+          units,
+          'Tidak ada unit yang cocok dengan pencarian/filter.'
+        )
       );
     },
 
