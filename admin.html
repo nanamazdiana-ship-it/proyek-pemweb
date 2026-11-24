@@ -1,0 +1,294 @@
+
+<!doctype html>
+<html lang="id">
+
+<head>
+  <!-- ==========================================
+       1. PENGATURAN DASAR HALAMAN
+       ========================================== -->
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#536B50">
+
+  <title>Dashboard Admin | Kontrakan Pak Sapriadi</title>
+
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="admin" class="dash-body">
+
+  <!-- ==========================================
+       2. TAUTAN AKSESIBILITAS
+       ========================================== -->
+
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+
+  <!-- ==========================================
+       3. HEADER DASHBOARD ADMIN
+       ========================================== -->
+
+  <header class="site-header">
+
+    <!-- Logo dan identitas kontrakan. -->
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Ke beranda publik"
+    >
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
+    </a>
+
+    <!-- Informasi akun admin yang sedang masuk. -->
+    <span class="muted">
+      Masuk sebagai <strong id="nama-user">…</strong>
+    </span>
+
+    <!-- Tombol mengganti tema tampilan. -->
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
+    <!-- Tombol mengakhiri sesi admin. -->
+    <button
+      type="button"
+      id="btn-keluar"
+      class="btn btn-accent btn-sm"
+    >
+      Keluar
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       4. NAVIGASI SIDEBAR ADMIN
+       ========================================== -->
+
+  <aside class="sidebar">
+
+    <nav aria-label="Menu admin">
+
+      <button
+        type="button"
+        data-panel-btn="ringkasan"
+        aria-controls="panel-ringkasan"
+        aria-current="page"
+      >
+        Ringkasan
+      </button>
+
+      <button
+        type="button"
+        data-panel-btn="unit"
+        aria-controls="panel-unit"
+      >
+        Unit
+      </button>
+
+      <button
+        type="button"
+        data-panel-btn="penghuni"
+        aria-controls="panel-penghuni"
+      >
+        Penghuni
+      </button>
+
+      <button
+        type="button"
+        data-panel-btn="pembayaran"
+        aria-controls="panel-pembayaran"
+      >
+        Pembayaran
+      </button>
+
+      <button
+        type="button"
+        data-panel-btn="laporan"
+        aria-controls="panel-laporan"
+      >
+        Laporan
+      </button>
+
+      <button
+        type="button"
+        data-panel-btn="minat"
+        aria-controls="panel-minat"
+      >
+        Minat sewa
+      </button>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- ==========================================
+       5. KONTEN UTAMA DASHBOARD
+       ========================================== -->
+
+  <main id="konten-utama" class="dash-main">
+
+    <!-- ------------------------------------------
+         PANEL 5.1 — RINGKASAN
+         ------------------------------------------ -->
+
+    <section
+      id="panel-ringkasan"
+      data-panel="ringkasan"
+    >
+
+      <h1>Ringkasan</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         PANEL 5.2 — MANAJEMEN UNIT
+         ------------------------------------------ -->
+
+    <section
+      id="panel-unit"
+      data-panel="unit"
+      hidden
+    >
+
+      <h1>Unit</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         PANEL 5.3 — MANAJEMEN PENGHUNI
+         ------------------------------------------ -->
+
+    <section
+      id="panel-penghuni"
+      data-panel="penghuni"
+      hidden
+    >
+
+      <h1>Penghuni</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         PANEL 5.4 — MANAJEMEN PEMBAYARAN
+         ------------------------------------------ -->
+
+    <section
+      id="panel-pembayaran"
+      data-panel="pembayaran"
+      hidden
+    >
+
+      <h1>Pembayaran</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         PANEL 5.5 — LAPORAN PENGHUNI
+         ------------------------------------------ -->
+
+    <section
+      id="panel-laporan"
+      data-panel="laporan"
+      hidden
+    >
+
+      <h1>Laporan penghuni</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         PANEL 5.6 — MINAT SEWA
+         ------------------------------------------ -->
+
+    <section
+      id="panel-minat"
+      data-panel="minat"
+      hidden
+    >
+
+      <h1>Minat sewa calon penghuni</h1>
+
+      <section
+        class="panel-body"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+  </main>
+
+
+  <!-- ==========================================
+       6. NOTIFIKASI SISTEM
+       ========================================== -->
+
+  <p
+    id="toast"
+    class="toast"
+    role="status"
+    hidden
+  ></p>
+
+
+  <!-- ==========================================
+       7. JAVASCRIPT HALAMAN
+       ========================================== -->
+
+  <script
+    type="module"
+    src="assets/js/app.js"
+  ></script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <!-- ==========================================
+       1. PENGATURAN DASAR HALAMAN
+       ========================================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#536B50">
+
+  <title>Masuk | Kontrakan Pak Sapriadi</title>
+
+  <!-- Ikon dan CSS utama -->
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="auth">
+
+  <!-- ==========================================
+       2. TAUTAN AKSESIBILITAS
+       ========================================== -->
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+  <!-- ==========================================
+       3. HEADER DAN NAVIGASI
+       ========================================== -->
+  <header class="site-header">
+
+    <!-- Logo dan identitas kontrakan -->
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Beranda Kontrakan Pak Sapriadi"
+    >
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
+    </a>
+
+    <!-- Navigasi antarhalaman -->
+    <nav class="main-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="calon-penghuni.html">Calon Penghuni</a></li>
+        <li><a href="login.html" aria-current="page">Masuk</a></li>
+      </ul>
+    </nav>
+
+    <!-- Tombol tema terang/gelap -->
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
+  </header>
+
+  <!-- ==========================================
+       4. KONTEN UTAMA LOGIN
+       ========================================== -->
+  <main id="konten-utama" class="auth-main">
+
+    <section class="auth-card" aria-labelledby="judul-login">
+
+      <h1 id="judul-login">Masuk</h1>
+
+      <p class="muted">
+        Untuk pemilik dan penghuni kontrakan.
+      </p>
+
+      <!-- ==========================================
+           5. FORMULIR LOGIN
+           ========================================== -->
+      <form id="form-login" class="form" novalidate>
+
+        <!-- Input email -->
+        <p class="form-field">
+          <label for="email">Email</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            aria-describedby="email-error"
+            aria-invalid="false"
+          >
+
+          <span
+            id="email-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Input kata sandi -->
+        <p class="form-field">
+          <label for="password">Kata sandi</label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            aria-describedby="password-error"
+            aria-invalid="false"
+          >
+
+          <span
+            id="password-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Tombol masuk -->
+        <button type="submit" class="btn btn-primary">
+          Masuk
+        </button>
+
+        <!-- Pesan kesalahan umum -->
+        <p class="form-status field-error" role="alert"></p>
+
+      </form>
+
+      <!-- Tautan pendaftaran penghuni -->
+      <p>
+        Belum punya akun?
+        <a href="register.html">Daftar sebagai penghuni</a>
+      </p>
+
+    </section>
+  </main>
+
+  <!-- ==========================================
+       6. JAVASCRIPT LOGIN
+       ========================================== -->
+  <script type="module" src="assets/js/login.js"></script>
+
+</body>
+</html>

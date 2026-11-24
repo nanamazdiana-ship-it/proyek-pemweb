@@ -1,0 +1,200 @@
+
+<!doctype html>
+<html lang="id">
+
+<head>
+  <!-- ==========================================
+       1. PENGATURAN DASAR HALAMAN
+       ========================================== -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#536B50">
+
+  <title>Daftar Akun | Kontrakan Pak Sapriadi</title>
+
+  <!-- Ikon dan CSS utama -->
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="auth">
+
+  <!-- ==========================================
+       2. TAUTAN AKSESIBILITAS
+       ========================================== -->
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+  <!-- ==========================================
+       3. HEADER DAN NAVIGASI
+       ========================================== -->
+  <header class="site-header">
+
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Beranda Kontrakan Pak Sapriadi"
+    >
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="calon-penghuni.html">Calon Penghuni</a></li>
+        <li><a href="login.html">Masuk</a></li>
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
+  </header>
+
+  <!-- ==========================================
+       4. KONTEN UTAMA PENDAFTARAN
+       ========================================== -->
+  <main id="konten-utama" class="auth-main">
+
+    <section class="auth-card" aria-labelledby="judul-register">
+
+      <h1 id="judul-register">Buat Akun</h1>
+
+      <p class="muted">
+        Daftarkan akun untuk mengajukan minat sewa kontrakan.
+      </p>
+
+      <!-- ==========================================
+           5. FORMULIR PENDAFTARAN
+           ========================================== -->
+      <form id="form-register" class="form" novalidate>
+
+        <!-- Input nama lengkap -->
+        <p class="form-field">
+          <label for="nama">Nama lengkap</label>
+
+          <input
+            id="nama"
+            name="nama"
+            type="text"
+            autocomplete="name"
+            aria-describedby="nama-error"
+            aria-invalid="false"
+            required
+          >
+
+          <span
+            id="nama-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Input email -->
+        <p class="form-field">
+          <label for="email">Email</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            aria-describedby="email-error"
+            aria-invalid="false"
+            required
+          >
+
+          <span
+            id="email-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Input kata sandi -->
+        <p class="form-field">
+          <label for="password">Kata sandi</label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            aria-describedby="password-error"
+            aria-invalid="false"
+            required
+          >
+
+          <span
+            id="password-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Konfirmasi kata sandi -->
+        <p class="form-field">
+          <label for="konfirmasi-password">
+            Konfirmasi kata sandi
+          </label>
+
+          <input
+            id="konfirmasi-password"
+            name="konfirmasi_password"
+            type="password"
+            autocomplete="new-password"
+            aria-describedby="konfirmasi-error"
+            aria-invalid="false"
+            required
+          >
+
+          <span
+            id="konfirmasi-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <!-- Tombol daftar -->
+        <button type="submit" class="btn btn-primary">
+          Daftar
+        </button>
+
+        <!-- Pesan status pendaftaran -->
+        <p class="form-status field-error" role="alert"></p>
+
+      </form>
+
+      <!-- Tautan kembali ke login -->
+      <p>
+        Sudah punya akun?
+        <a href="login.html">Masuk di sini</a>
+      </p>
+
+    </section>
+  </main>
+
+  <!-- ==========================================
+       6. JAVASCRIPT PENDAFTARAN
+       ========================================== -->
+  <script type="module" src="assets/js/register.js"></script>
+
+</body>
+</html>
