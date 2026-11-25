@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <!-- ==========================================
+       1. PENGATURAN DASAR HALAMAN
+       ========================================== -->
+
+  <!-- Mengatur karakter teks agar simbol tampil dengan benar. -->
+  <meta charset="utf-8">
+
+  <!-- Menyesuaikan tampilan dengan ukuran layar perangkat. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Warna tema browser pada perangkat yang mendukungnya. -->
+  <meta name="theme-color" content="#536B50">
+
+  <!-- Judul halaman dashboard admin. -->
+  <title>Dashboard Admin | Kontrakan Pak Sapriadi</title>
+
+  <!-- Ikon situs dan file CSS utama. -->
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="admin" class="dash-body">
+
+  <!-- ==========================================
+       2. TAUTAN AKSESIBILITAS
+       ========================================== -->
+
+  <!-- Memudahkan pengguna keyboard menuju konten utama. -->
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+
+  <!-- ==========================================
+       3. HEADER DASHBOARD ADMIN
+       ========================================== -->
+
+  <header class="site-header">
+
+    <!-- Logo dan identitas kontrakan. -->
+    <a class="brand" href="index.html" aria-label="Ke beranda publik">
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
+    </a>
+
+    <!-- Nama admin akan diisi oleh JavaScript. -->
+    <p class="muted">
+      Masuk sebagai
+      <strong id="nama-user">Memuat nama...</strong>
+    </p>
+
+    <!-- Tombol untuk mengganti tema terang dan gelap. -->
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-label="Ganti tema tampilan"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
+    <!-- Tombol keluar dari dashboard admin. -->
+    <button
+      type="button"
+      id="btn-keluar"
+      class="btn btn-accent btn-sm"
+    >
+      Keluar
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       4. SIDEBAR NAVIGASI ADMIN
+       ========================================== -->
+
+  <!--
+    Sidebar berisi tombol untuk berpindah antarpanel.
+    Atribut data-panel-btn dipertahankan agar dapat
+    dikenali oleh JavaScript.
+  -->
+  <aside class="sidebar">
+
+    <nav aria-label="Menu admin">
+
+      <!-- Menampilkan ringkasan sistem kontrakan. -->
+      <button type="button" data-panel-btn="ringkasan">
+        Ringkasan
+      </button>
+
+      <!-- Mengelola informasi dan status unit kontrakan. -->
+      <button type="button" data-panel-btn="unit">
+        Unit
+      </button>
+
+      <!-- Mengelola data penghuni. -->
+      <button type="button" data-panel-btn="penghuni">
+        Penghuni
+      </button>
+
+      <!-- Mengelola tagihan dan pembayaran sewa. -->
+      <button type="button" data-panel-btn="pembayaran">
+        Pembayaran
+      </button>
+
+      <!-- Memeriksa laporan atau pengaduan penghuni. -->
+      <button type="button" data-panel-btn="laporan">
+        Laporan
+      </button>
+
+      <!-- Memeriksa pengajuan minat sewa. -->
+      <button type="button" data-panel-btn="minat">
+        Minat sewa
+      </button>
+
+    </nav>
+
+  </aside>
+
+
+  <!-- ==========================================
+       5. KONTEN UTAMA DASHBOARD
+       ========================================== -->
+
+  <main id="konten-utama" class="dash-main">
+
+    <!-- ------------------------------------------
+         BAGIAN 5.1 — PANEL RINGKASAN
+         ------------------------------------------ -->
+
+    <!--
+      Panel awal yang menampilkan ringkasan kondisi
+      unit, penghuni, pembayaran, laporan, dan minat sewa.
+    -->
+    <section data-panel="ringkasan" aria-labelledby="judul-ringkasan">
+
+      <h1 id="judul-ringkasan">Ringkasan</h1>
+
+      <!-- Konten ringkasan diisi oleh JavaScript. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 5.2 — PANEL UNIT
+         ------------------------------------------ -->
+
+    <!--
+      Tempat melihat dan mengelola data unit kontrakan,
+      termasuk status Tersedia atau Terisi.
+    -->
+    <section
+      data-panel="unit"
+      aria-labelledby="judul-unit"
+      hidden
+    >
+
+      <h1 id="judul-unit">Unit Kontrakan</h1>
+
+      <!-- Daftar dan tindakan pengelolaan unit. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 5.3 — PANEL PENGHUNI
+         ------------------------------------------ -->
+
+    <!-- Tempat melihat dan mengelola data penghuni. -->
+    <section
+      data-panel="penghuni"
+      aria-labelledby="judul-penghuni"
+      hidden
+    >
+
+      <h1 id="judul-penghuni">Data Penghuni</h1>
+
+      <!-- Informasi penghuni dan unit yang ditempati. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 5.4 — PANEL PEMBAYARAN
+         ------------------------------------------ -->
+
+    <!-- Tempat memeriksa tagihan dan pembayaran sewa. -->
+    <section
+      data-panel="pembayaran"
+      aria-labelledby="judul-pembayaran"
+      hidden
+    >
+
+      <h1 id="judul-pembayaran">Pembayaran</h1>
+
+      <!-- Daftar tagihan dan status pembayaran. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 5.5 — PANEL LAPORAN
+         ------------------------------------------ -->
+
+    <!-- Tempat memeriksa laporan dari penghuni. -->
+    <section
+      data-panel="laporan"
+      aria-labelledby="judul-laporan"
+      hidden
+    >
+
+      <h1 id="judul-laporan">Laporan Penghuni</h1>
+
+      <!-- Daftar laporan dan tindak lanjutnya. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 5.6 — PANEL MINAT SEWA
+         ------------------------------------------ -->
+
+    <!-- Tempat memeriksa pengajuan dari calon penghuni. -->
+    <section
+      data-panel="minat"
+      aria-labelledby="judul-minat"
+      hidden
+    >
+
+      <h1 id="judul-minat">Minat Sewa Calon Penghuni</h1>
+
+      <!-- Daftar calon penghuni yang mengajukan minat sewa. -->
+      <section class="panel-body" aria-live="polite"></section>
+
+    </section>
+
+  </main>
+
+
+  <!-- ==========================================
+       6. NOTIFIKASI AKSI
+       ========================================== -->
+
+  <!-- Menampilkan pesan singkat hasil tindakan admin. -->
+  <p id="toast" class="toast" role="status" hidden></p>
+
+
+  <!-- ==========================================
+       7. JAVASCRIPT DASHBOARD ADMIN
+       ========================================== -->
+
+  <!--
+    Memuat JavaScript sebagai ES Module.
+    app.js perlu menangani data-page="admin"
+    dan tombol navigasi data-panel-btn.
+  -->
+  <script type="module" src="assets/js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+
+<!doctype html>
+<html lang="id">
+
+<head>
+  <!-- 1. Pengaturan dasar halaman -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#536B50">
+
+  <title>Dashboard Penghuni | Kontrakan Pak Sapriadi</title>
+
+  <!-- Ikon dan CSS utama -->
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="penghuni">
+
+  <!-- 2. Tautan aksesibilitas -->
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+  <!-- 3. Header dashboard -->
+  <header class="site-header">
+
+    <!-- Identitas kontrakan -->
+    <a class="brand" href="index.html" aria-label="Ke beranda publik">
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
+    </a>
+
+    <!-- Nama penghuni diisi oleh JavaScript -->
+    <p class="muted">
+      Masuk sebagai
+      <strong id="nama-user">Memuat nama...</strong>
+    </p>
+
+    <!-- Tombol tema -->
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-label="Ganti tema tampilan"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
+    <!-- Tombol keluar -->
+    <button
+      type="button"
+      id="btn-keluar"
+      class="btn btn-accent btn-sm"
+    >
+      Keluar
+    </button>
+
+  </header>
+
+  <!-- 4. Konten utama dashboard -->
+  <main id="konten-utama" class="section">
+
+    <header class="section-head">
+      <h1>Dashboard Penghuni</h1>
+
+      <p class="muted">
+        Kelola informasi unit, pantau pembayaran,
+        dan kirim laporan kepada pemilik kontrakan.
+      </p>
+    </header>
+
+    <!-- 4.1 Informasi unit -->
+    <section aria-labelledby="h-unit">
+
+      <h2 id="h-unit">Unit Anda</h2>
+
+      <!-- Informasi unit diisi oleh JavaScript -->
+      <section
+        id="info-unit"
+        aria-label="Informasi unit yang disewa"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+    <!-- 4.2 Riwayat pembayaran -->
+    <section class="section" aria-labelledby="h-bayar">
+
+      <h2 id="h-bayar">Riwayat Pembayaran</h2>
+
+      <p class="muted">
+        Periksa riwayat tagihan dan status pembayaran sewa Anda.
+      </p>
+
+      <!-- Data pembayaran diisi oleh JavaScript -->
+      <section
+        id="riwayat-bayar"
+        aria-label="Riwayat pembayaran"
+        aria-live="polite"
+      ></section>
+
+    </section>
+
+    <!-- 4.3 Laporan dan pengaduan -->
+    <section class="section" aria-labelledby="h-lapor">
+
+      <h2 id="h-lapor">Laporan &amp; Pengaduan</h2>
+
+      <p class="muted">
+        Sampaikan kerusakan fasilitas atau kendala
+        yang perlu diketahui oleh pemilik kontrakan.
+      </p>
+
+      <!-- Formulir pengaduan penghuni -->
+      <form id="form-laporan" class="form" novalidate>
+
+        <p class="form-field">
+          <label for="judul">Judul laporan</label>
+
+          <input
+            id="judul"
+            name="judul"
+            type="text"
+            maxlength="100"
+            autocomplete="off"
+            aria-describedby="judul-error"
+            aria-invalid="false"
+          >
+
+          <span
+            id="judul-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <p class="form-field">
+          <label for="isi">Isi laporan</label>
+
+          <textarea
+            id="isi"
+            name="isi"
+            rows="4"
+            maxlength="1000"
+            aria-describedby="isi-error"
+            aria-invalid="false"
+          ></textarea>
+
+          <span
+            id="isi-error"
+            class="field-error"
+            aria-live="polite"
+          ></span>
+        </p>
+
+        <button type="submit" class="btn btn-primary">
+          Kirim laporan
+        </button>
+
+      </form>
+
+      <!-- Daftar laporan penghuni -->
+      <section aria-labelledby="h-daftar-laporan">
+
+        <h3 id="h-daftar-laporan">Laporan Anda</h3>
+
+        <section
+          id="daftar-laporan"
+          aria-label="Daftar laporan Anda"
+          aria-live="polite"
+        ></section>
+
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- 5. Notifikasi hasil aksi -->
+  <p
+    id="toast"
+    class="toast"
+    role="status"
+    hidden
+  ></p>
+
+  <!-- 6. JavaScript dashboard -->
+  <script type="module" src="assets/js/app.js"></script>
+
+</body>
+</html>

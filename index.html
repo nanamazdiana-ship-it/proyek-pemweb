@@ -1,189 +1,372 @@
+
 <!doctype html>
-<!--
-  ================================================================
-  PROYEK: Web Kontrakan Pak Sapriadi (3 Pintu) — Halaman Publik
-  Dikerjakan bertahap mengikuti modul praktikum Pemrograman Web:
-    Modul 02 — Struktur HTML5 & Aksesibilitas Dasar
-    Modul 03 — CSS Modern, Responsive Design, Flexbox/Grid, UI/UX
-    Modul 04 — JavaScript Modern (ES6+), Modules  (lihat assets/js/data.js)
-    Modul 05 — DOM, Event, Web Storage, Dynamic UI (lihat assets/js/script.js)
-  ================================================================
--->
 <html lang="id">
+
 <head>
+  <!-- ==========================================
+       1. PENGATURAN DASAR HALAMAN
+       ========================================== -->
+
+  <!-- Menentukan karakter agar teks dan simbol tampil dengan benar. -->
   <meta charset="utf-8">
+
+  <!-- Membuat tampilan menyesuaikan ukuran layar perangkat. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Kontrakan 3 pintu Pak Sapriadi di Tarakan - nyaman, aman, dan strategis">
-  <title>Kontrakan Pak Sapriadi - Hunian Nyaman &amp; Asri (3 Pintu)</title>
 
+  <!-- Menentukan warna tema browser pada perangkat yang mendukungnya. -->
+  <meta name="theme-color" content="#536B50">
+
+  <!-- Judul halaman yang tampil pada tab browser. -->
+  <title>Hunian Nyaman di Tarakan | Kontrakan Pak Sapriadi</title>
+
+  <!-- Menghubungkan ikon situs yang tampil pada tab browser. -->
+  <link rel="icon" href="assets/images/logo.png">
+
+  <!-- Menghubungkan file CSS utama website. -->
   <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ROOM TOUR: CSS untuk pemutar panorama 360 derajat. -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+  >
+
+  <!-- ROOM TOUR: Mengatur tampilan pemutar panorama. -->
+  <style>
+    #room-tour-viewer {
+      width: 100%;
+      height: 420px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #252525;
+    }
+
+    #room-tour-status {
+      margin-top: 12px;
+    }
+
+    @media (max-width: 600px) {
+      #room-tour-viewer {
+        height: 300px;
+        border-radius: 12px;
+      }
+    }
+  </style>
 </head>
-<body>
 
-  <!-- ============================================================
-       MODUL 02 — AKSESIBILITAS: skip navigation link
-       Memudahkan pengguna keyboard/screen reader lompat ke konten utama.
-       ============================================================ -->
-  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+<!--
+  data-page digunakan sebagai penanda bahwa halaman ini adalah beranda.
+  JavaScript dapat memanfaatkan atribut ini untuk menentukan perilaku halaman.
+-->
+<body data-page="beranda">
 
-  <!-- ============================================================
-       MODUL 02 — <header> berisi identitas situs & <nav> navigasi utama.
-       MODUL 03 — nav ditata pakai Flexbox (lihat style.css bagian header/nav).
-       ============================================================ -->
-  <header>
-    <a href="#beranda" aria-label="Beranda Kontrakan Pak Sapriadi">
-      <img src="assets/images/logo.png" alt="Logo Kontrakan Pak Sapriadi - Hunian Nyaman dan Asri" class="site-logo">
+  <!-- ==========================================
+       2. TAUTAN AKSESIBILITAS
+       ========================================== -->
+
+  <!-- Memudahkan pengguna keyboard melewati navigasi. -->
+  <a class="skip-link" href="#konten-utama">
+    Lewati ke konten utama
+  </a>
+
+
+  <!-- ==========================================
+       3. HEADER DAN NAVIGASI
+       ========================================== -->
+
+  <header class="site-header">
+
+    <!-- Logo dan identitas Kontrakan Pak Sapriadi. -->
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Beranda Kontrakan Pak Sapriadi"
+    >
+      <img
+        src="assets/images/logo.png"
+        alt=""
+        width="44"
+        height="44"
+      >
+
+      <span>
+        <strong>Pak Sapriadi</strong>
+        <small>Kontrakan · Tarakan</small>
+      </span>
     </a>
 
-    <nav aria-label="Navigasi Utama">
+    <!-- Navigasi untuk berpindah ke halaman lain. -->
+    <nav class="main-nav" aria-label="Navigasi utama">
       <ul>
-        <li><a href="#beranda">Beranda</a></li>
-        <li><a href="#katalog">Katalog Unit</a></li>
-        <li><a href="#keunggulan">Keunggulan</a></li>
-        <li><a href="#kontak">Hubungi Kami</a></li>
+        <li>
+          <a href="index.html" aria-current="page">Beranda</a>
+        </li>
+
+        <li>
+          <a href="calon-penghuni.html">Calon Penghuni</a>
+        </li>
+
+        <li>
+          <a href="login.html">Masuk</a>
+        </li>
       </ul>
     </nav>
-    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">🌙 Tema gelap</button>
+
+    <!-- Tombol untuk mengganti tema terang dan gelap. -->
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost btn-sm"
+      aria-label="Ganti tema tampilan"
+      aria-pressed="false"
+    >
+      ☾ Tema gelap
+    </button>
+
   </header>
 
-  <!-- ============================================================
-       MODUL 02 — <main> sebagai landmark konten utama halaman.
-       ============================================================ -->
+
+  <!-- ==========================================
+       4. KONTEN UTAMA BERANDA
+       ========================================== -->
+
   <main id="konten-utama">
 
-    <!-- ============================================================
-         SECTION 1 — HERO BANNER
-         MODUL 02: <section> pertama dari 3+ section wajib; heading h1
-                    dimulai di sini (awal hierarchy heading halaman).
-         MODUL 03: tata letak dua kolom pakai Flexbox/Grid, responsif
-                    mobile-first (lihat media query di style.css).
-         ============================================================ -->
-    <section id="beranda" class="hero-section">
+    <!-- ------------------------------------------
+         BAGIAN 4.1 — HERO / SAMBUTAN
+         ------------------------------------------ -->
+
+    <section class="hero" aria-labelledby="judul-hero">
+
       <article class="hero-content">
-        <p class="badge-tag">📍 Kontrakan Nyaman di Kota Tarakan</p>
-        <h1>Kontrakan Pak Sapriadi<br><span>Nyaman, Aman, dan Strategis</span></h1>
-        <p class="hero-desc">
-          Kontrakan 3 pintu yang tenang dan strategis di Kota Tarakan. Setiap unit terdiri dari ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri. Cocok untuk mahasiswa maupun pekerja.
+
+        <h1 id="judul-hero">
+          Kontrakan Pak Sapriadi, tempat pulang yang tenang di Tarakan.
+        </h1>
+
+        <p class="lead">
+          Tiga pintu kontrakan mandiri. Setiap unit punya ruang tengah,
+          dua kamar tidur, dapur, dan toilet sendiri, dengan sewa
+          Rp1.000.000 per bulan.
         </p>
-        <p class="hero-cta">
-          <a href="#katalog" class="btn-primary">Lihat Unit Tersedia &rarr;</a>
-        </p>
+
+        <!-- Tombol tindakan utama halaman. -->
+        <nav class="hero-actions" aria-label="Tindakan utama">
+
+          <a class="btn btn-primary" href="#unit">
+            Lihat unit &amp; ketersediaan
+          </a>
+
+          <a class="btn btn-accent" href="calon-penghuni.html#form">
+            Ajukan minat sewa
+          </a>
+
+        </nav>
       </article>
 
-      <!-- MODUL 02: gambar informatif (bukan dekoratif) -> alt menjelaskan isi gambar -->
-      <figure class="hero-figure">
-        <img src="assets/images/kontrakan.png" alt="Tampak Depan Bangunan Asri Kontrakan Pak Sapriadi Tarakan">
-        <figcaption>Suasana Asri Tampak Depan Kontrakan Pak Sapriadi (3 Pintu)</figcaption>
+      <!-- Foto utama bangunan kontrakan. -->
+      <figure>
+        <img
+          src="assets/images/kontrakan.png"
+          alt="Tampak depan bangunan Kontrakan Pak Sapriadi dengan tiga pintu unit"
+          fetchpriority="high"
+        >
+
+        <figcaption>
+          Bangunan kontrakan dengan tiga pintu unit.
+        </figcaption>
       </figure>
+
     </section>
 
-    <!-- ============================================================
-         SECTION 2 — KATALOG UNIT KAMAR
-         MODUL 02: <section> kedua; h2 di bawah h1 (hierarchy tetap logis).
-         MODUL 03: kartu unit ditata pakai CSS Grid, responsif (auto-fit).
-         MODUL 04+05: isi <ul class="katalog-grid"> DIRENDER OTOMATIS oleh
-                      JavaScript (assets/js/script.js) dari data yang ada
-                      di assets/js/data.js — tidak ditulis manual di HTML.
-         ============================================================ -->
-    <section id="katalog">
-        <h2>Pilih Unit yang Sesuai dengan Kebutuhanmu</h2>
-         <p class="section-subtitle">Tersedia 3 pintu unit kontrakan dengan fasilitas mandiri yang nyaman dan harga sewa terjangkau.</p>
 
-          <p id="ringkasan-unit" class="section-subtitle" aria-live="polite"></p>
+    <!-- ------------------------------------------
+         BAGIAN 4.2 — DAFTAR UNIT KONTRAKAN
+         ------------------------------------------ -->
 
-    <label for="filter-unit">Tampilkan unit:</label>
-    <select id="filter-unit" aria-label="Filter unit berdasarkan status">
-      <option value="semua">Semua unit</option>
-      <option value="tersedia">Hanya tersedia</option>
-      <option value="terisi">Hanya terisi</option>
-    </select>
-      <p id="hasil-filter" class="section-subtitle" aria-live="polite"></p>
-      <ul class="katalog-grid"></ul>
-    </section>
-    <!-- ============================================================
-         SECTION 3 — KEUNGGULAN / FASILITAS BERSAMA
-         MODUL 02: <section> ketiga (memenuhi syarat minimal 3 section).
-         MODUL 03: feature-grid ditata pakai CSS Grid 3 kolom responsif.
-         ============================================================ -->
-    <section id="keunggulan">
-      <h2>Kenapa Memilih Kontrakan Pak Sapriadi?</h2>
-      <ul class="feature-grid">
-        <li>
-          <h3>📍 Lokasi Strategis</h3>
-          <p>Dekat dengan kampus, dan pusat kota umum di Tarakan.</p>
-        </li>
-        <li>
-          <h3>🛡️ Aman &amp; Nyaman</h3>
-          <p>Lingkungan yang tenang dengan privasi tinggi dan keamanan terjamin.</p>
-        </li>
-        <li>
-          <h3>🏡 Fasilitas Mandiri</h3>
-          <p>Tiap pintu dilengkapi ruang tengah, 2 kamar tidur, dapur, dan toilet mandiri.</p>
-        </li>
-      </ul>
+    <section
+      id="unit"
+      class="section alt"
+      aria-labelledby="judul-unit"
+    >
+
+      <header class="section-head">
+
+        <h2 id="judul-unit">Tiga pintu, status terkini</h2>
+
+        <p class="muted">
+          Status dan harga diambil langsung dari data pengelola,
+          sehingga selalu sama dengan yang ada di dashboard.
+        </p>
+
+        <!-- Tempat ringkasan status unit dari app.js. -->
+        <p
+          id="unit-summary"
+          class="api-summary"
+          aria-live="polite"
+        ></p>
+
+      </header>
+
+      <!-- Kartu unit diisi secara dinamis oleh app.js. -->
+      <section
+        id="unit-list"
+        aria-label="Daftar unit kontrakan"
+        aria-live="polite"
+      ></section>
+
     </section>
 
-    <!-- ============================================================
-         SECTION 4 — FORMULIR MINAT SEWA
-         MODUL 02: <form> dengan <label> terhubung ke tiap <input> lewat
-                    for/id, serta tipe input yang tepat (tel, select, textarea).
-         MODUL 05: Interaksi 3 & 4 — auto-pilih unit di dropdown (event: click
-                    di kartu, lewat event delegation) dan umpan balik submit
-                    (event: submit) ditangani script.js.
-         ============================================================ -->
-    <section id="kontak">
-      <h2>Formulir Minat Sewa &amp; Survei</h2>
-      <p class="section-subtitle">Lengkapi formulir di bawah ini untuk mengajukan pertanyaan atau membuat janji survei lokasi.</p>
 
-      <form action="#" method="post" novalidate aria-describedby="petunjuk-form">
-        <p id="petunjuk-form">Kolom bertanda wajib diisi. Nama hanya boleh berisi huruf dan spasi; nomor WhatsApp hanya boleh berisi 9–15 angka.</p>
-        <p>
-          <label for="nama">Nama Lengkap <span aria-hidden="true">(wajib)</span>:</label>
-          <input type="text" id="nama" name="nama" required placeholder="Masukkan nama Anda" autocomplete="name" minlength="2" maxlength="80" pattern="[A-Za-zÀ-ÖØ-öø-ÿĀ-ž]+(?:[ '-][A-Za-zÀ-ÖØ-öø-ÿĀ-ž]+)*" title="Gunakan huruf, spasi, tanda hubung, atau apostrof saja." aria-describedby="nama-error" aria-invalid="false">
-          <span class="field-error" id="nama-error" aria-live="polite"></span>
+    <!-- ------------------------------------------
+         BAGIAN 4.3 — TUR RUANGAN 360 DERAJAT
+         ------------------------------------------ -->
+
+    <section
+      id="tur"
+      class="section tour"
+      aria-labelledby="judul-tur"
+    >
+
+      <!-- Judul dan penjelasan Room Tour. -->
+      <header class="section-head">
+
+        <h2 id="judul-tur">Tur ruangan 360°</h2>
+
+        <p class="muted">
+          Jelajahi panorama ruangan Kontrakan Pak Sapriadi.
+          Geser gambar untuk melihat sekeliling dan gunakan
+          kontrol yang tersedia untuk memperbesar tampilan.
         </p>
 
-        <p>
-          <label for="telepon">Nomor WhatsApp <span aria-hidden="true">(wajib)</span>:</label>
-          <input type="tel" id="telepon" name="telepon" required placeholder="Contoh: 081234567890" autocomplete="tel" inputmode="numeric" minlength="9" maxlength="15" pattern="[0-9]{9,15}" title="Masukkan 9 sampai 15 angka tanpa spasi atau tanda baca." aria-describedby="telepon-error" aria-invalid="false">
-          <span class="field-error" id="telepon-error" aria-live="polite"></span>
-        </p>
+      </header>
 
-        <p>
-          <label for="pilihan-pintu">Pilih Unit Pintu <span aria-hidden="true">(wajib)</span>:</label>
-          <!-- Opsi dropdown diisi otomatis oleh renderPilihanPintu() di script.js (Modul 05), dari data.js (Modul 04) -->
-          <select id="pilihan-pintu" name="pilihan_pintu" required>
-            <option value="">-- Pilih Unit Pintu --</option>
-          </select>
-          <span class="field-error" id="pilihan-pintu-error" aria-live="polite"></span>
-        </p>
+      <!--
+        Wadah panorama 360 derajat.
+        room-tour.js akan menginisialisasi pemutar di dalam elemen ini.
+      -->
+      <div
+        id="room-tour-viewer"
+        role="region"
+        aria-label="Pemutar panorama 360 derajat Kontrakan Pak Sapriadi"
+      ></div>
 
-        <p>
-          <label for="pesan">Pesan / Rencana Tanggal Survei:</label>
-          <textarea id="pesan" name="pesan" rows="4" maxlength="1000" placeholder="Tuliskan tanggal rencana survei atau pertanyaan Anda..." aria-describedby="pesan-error"></textarea>
-          <span class="field-error" id="pesan-error" aria-live="polite"></span>
-        </p>
+      <!--
+        Status pemuatan panorama.
+        JavaScript memperbarui pesan jika panorama gagal dimuat.
+      -->
+      <p
+        id="room-tour-status"
+        class="muted"
+        role="status"
+        aria-live="polite"
+      >
+        Memuat panorama Room Tour...
+      </p>
 
-        <p>
-          <button type="submit" class="btn-primary">Kirim Pengajuan Sewa</button>
-        </p>
-      </form>
+      <!-- Petunjuk penggunaan pemutar. -->
+      <p class="muted">
+        Pada komputer, klik dan seret gambar menggunakan mouse.
+        Pada ponsel, sentuh dan geser gambar untuk melihat sekeliling.
+      </p>
+
+      <!-- Informasi untuk calon penghuni. -->
+      <p class="muted">
+        Panorama memberikan gambaran ruangan. Untuk survei langsung,
+        silakan tanyakan jadwal kepada pemilik.
+      </p>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 4.4 — AJAKAN MINAT SEWA
+         ------------------------------------------ -->
+
+    <section class="section">
+
+      <article class="cta-box">
+
+        <header>
+          <h2>Tertarik menyewa?</h2>
+
+          <p>
+            Isi formulir singkat, lalu lanjutkan percakapan
+            dengan pemilik lewat WhatsApp.
+          </p>
+        </header>
+
+        <a class="btn" href="calon-penghuni.html#form">
+          Ajukan minat sewa
+        </a>
+
+      </article>
+
+    </section>
+
+
+    <!-- ------------------------------------------
+         BAGIAN 4.5 — AKSES PENGHUNI
+         ------------------------------------------ -->
+
+    <section class="section">
+
+      <h2>Sudah menjadi penghuni?</h2>
+
+      <p class="muted">
+        Masuk untuk melihat unit, tagihan, dan mengirim laporan kepada pemilik.
+      </p>
+
+      <a class="btn btn-ghost" href="login.html">
+        Masuk ke sistem
+      </a>
+
     </section>
 
   </main>
 
-  <!-- MODUL 02 — <footer> sebagai landmark penutup halaman -->
-  <footer>
-    <p>&copy; 2026 Kontrakan Pak Sapriadi (3 Pintu). Praktikum Pemrograman Web UBT.</p>
+
+  <!-- ==========================================
+       5. FOOTER / BAGIAN BAWAH HALAMAN
+       ========================================== -->
+
+  <footer class="site-footer">
+
+    <p>
+      <strong>Kontrakan Pak Sapriadi</strong>
+      — hunian di Kota Tarakan (3 pintu).
+    </p>
+
+    <p>
+      <a href="index.html">Beranda</a>
+      ·
+      <a href="calon-penghuni.html">Calon Penghuni</a>
+      ·
+      <a href="login.html">Masuk</a>
+    </p>
+
+    <p style="opacity: .8">
+      &copy; 2026 Kontrakan Pak Sapriadi. Praktikum Pemrograman Web UBT.
+    </p>
+
   </footer>
 
+
+  <!-- ==========================================
+       6. JAVASCRIPT HALAMAN
+       ========================================== -->
+
   <!--
-    MODUL 04 — dimuat sejak awal sebagai ES Module (type="module")
-    supaya import/export bisa dipakai tanpa ubah pola loading script.
-    MODUL 05 — script.js meng-import data & fungsi dari data.js, lalu
-    merender DOM dan menangani semua interaksi/event di halaman ini.
+    Library Pannellum dimuat terlebih dahulu agar tersedia
+    ketika room-tour.js dijalankan.
   -->
-  <script type="module" src="assets/js/script.js?v=3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+  <!-- JavaScript utama website: tema dan daftar unit. -->
+  <script type="module" src="assets/js/app.js"></script>
+
+  <!-- JavaScript khusus untuk panorama Room Tour 360°. -->
+  <script type="module" src="assets/js/room-tour.js"></script>
 
 </body>
 </html>

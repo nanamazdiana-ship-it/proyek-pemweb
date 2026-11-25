@@ -1,0 +1,16 @@
+
+{
+    "name": "kontrakan/pak-sapriadi",
+    "description": "Sistem Manajemen Kontrakan Pak Sapriadi (3 pintu)",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

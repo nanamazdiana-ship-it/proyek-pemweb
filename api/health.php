@@ -15,5 +15,5 @@ http_response_code(200);
 // Mengirim respons JSON.
 echo json_encode([
     'status' => 'ok',
-    'message' => 'API Kontrakkan Pak Sapriadi berjalan.'
+    'message' => 'API kontrakan Pak Sapriadi berjalan.'
 ]);

@@ -7,5 +7,7 @@
 
 # File sementara dan log
 *.log
+storage/*.sqlite
+storage/*.db
 .DS_Store
 Thumbs.db
